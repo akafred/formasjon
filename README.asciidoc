@@ -68,6 +68,12 @@ My VPS did not have all the required packages to run Ansible most of the ansible
 
 To fix this I started with link:provision/roles/ansible-prereqs[a role for getting the prereq's in place].
 
+==== Firewall using Uncomplicated Firewall (ufw) and fail2ban
+
+I use https://wiki.debian.org/Uncomplicated%20Firewall%20(ufw)[ufw] for my firewall as it is a bit easier to use than iptables directly; ansible also has https://docs.ansible.com/ansible/ufw_module.html[a module for it]. The role has link:provision/roles/firewalled/tasks/main.yml[a simple set of tasks].
+
+Also, to limit the chance of brute-forcing password-based SSH-users I added fail2ban. Thankfully someone has already created https://galaxy.ansible.com/nickjj/fail2ban/[a role for fail2ban] (pulled from https://galaxy.ansible.com/[Ansible Galaxy]), all I did was put it in my link:provision/base-setup.yml[base-setup], add some host-specific variables and press play.
+
 === Ansible command helpers
 
 To repeatedly use some arguments when invoking ansible is a bit tedious so I have made a couple of helper scripts: 
@@ -84,3 +90,4 @@ A first step in making my server a bit more secure is to upgrade packages. To ch
 To upgrade I use link:provision/upgrade.yml[a very short Ansible playbook], to run the playbook I can do:
 
 `./play -i dev upgrade.yml`
+

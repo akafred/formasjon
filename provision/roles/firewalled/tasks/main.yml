@@ -1,0 +1,21 @@
+
+- name: ufw - install uncomplicated firewall
+  apt: name=ufw state=present
+
+- name: ufw - enable firewall with logging
+  ufw: state=enabled logging=on
+
+- name: ufw - default allow outgoing
+  ufw: policy=allow direction=outgoing
+
+- name: ufw - default deny incoming
+  ufw: policy=deny direction=incoming logging=on
+
+- name: ufw - allow ssh
+  ufw: rule=limit port=ssh proto=tcp
+
+- name: ufw - allow ssh 2
+  ufw: rule=limit port=2252 proto=tcp
+
+- name: ufw - allow ssh 3
+  ufw: rule=limit port=2262 proto=tcp
