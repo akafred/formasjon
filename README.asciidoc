@@ -44,7 +44,9 @@ To secure communication with the server I have generated a public/private key-pa
 <3> I made a couple of helper scripts for doing the copying (yeah, I know, duplication)
 <4> The user and IP is not in the "prod"-script
 
-=== Using Ansible
+== Using Ansible
+
+=== Inventory files
 
 I use three inventory files for Ansible, link:provision/dev[`dev`], link:provision/staging[`staging`], and an encrypted one for link:provision/prod[`prod`]. The inventory files contain information about the server(s) in each environment and on how to connect to them. By encrypting the prod-inventory I can hide information is potentially sensitive. Ansible has a feature called http://docs.ansible.com/ansible/playbooks_vault.html[Ansible Vault] that makes it quite easy to work with.
 
@@ -65,3 +67,10 @@ The complete ansible command to run it is:
 My VPS did not have all the required packages to run Ansible most of the ansible modules (python being the most obvious missing piece).
 
 To fix this I started with link:provision/roles/ansible-prereqs[a role for getting the prereq's in place].
+
+=== Ansible command helpers
+
+To repeatedly use some arguments when invoking ansible is a bit tedious so I have made a couple of helper scripts: 
+
+* link:provision/run[`run`] - to run ansible commands, e.g `./run all -i dev -a "apt list --upgradeable"` or `./run all -i prod -m ping`
+* link:provision/play[`play`] - to run ansible playbooks, e.g `./play all -i dev site.yml`
