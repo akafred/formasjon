@@ -74,3 +74,13 @@ To repeatedly use some arguments when invoking ansible is a bit tedious so I hav
 
 * link:provision/run[`run`] - to run ansible commands, e.g `./run all -i dev -a "apt list --upgradeable"` or `./run all -i prod -m ping`
 * link:provision/play[`play`] - to run ansible playbooks, e.g `./play all -i dev site.yml`
+
+=== Upgrading packages
+
+A first step in making my server a bit more secure is to upgrade packages. To check if there is a need I can do:
+
+`./run all -i dev -a "apt list --upgradable"`
+
+To upgrade I use link:provision/upgrade.yml[a very short Ansible playbook], to run the playbook I can do:
+
+`./play -i dev upgrade.yml`
