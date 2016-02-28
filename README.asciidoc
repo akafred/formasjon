@@ -1,4 +1,27 @@
 Formasjon
 =========
 
-The set up of my virtual private server (VPS).
+The set up of my virtual private server (VPS). The goal is to automate configuration of everything on the server, while keeping it up and secure.
+
+The virtual server
+------------------
+
+The virtual server is delivered with a pretty minimal Debian stable/jessie (initially Debian 8.3), and can be accessed using ssh.
+
+
+Tools used
+----------
+
+* https://www.vagrantup.com/docs/[Vagrant] and https://www.virtualbox.org/[VirtualBox] - installed on my Mac using http://brew.sh/[Homebrew]
+
+
+Development and staging VMs
+---------------------------
+
+
+To reduce the risk of making changes I use two local virtual machines (VMs running in VirtualBox). These are set up using Vagrant; see link:provision/Vagrantfile[the Vagrantfile] for details:
+
+* `devmain` - I poke around in this one manually
+* `localmain` - I use this for staging to make sure my automation works as it should. 
+
+The installations of Debian in these VMs differ a little in the packages installed (they have more than the VPS), I'll guess I'll figure out how to handle that as I go along.
