@@ -1,23 +1,21 @@
-Formasjon
-=========
+= Formasjon - the set-up of my virtual private server
+:toc:
 
-The set up of my virtual private server (VPS). The goal is to automate configuration of everything on the server, while keeping it up and secure.
-
-The virtual server
-------------------
-
-The virtual server is delivered with a pretty minimal Debian stable/jessie (initially Debian 8.3), and can be accessed using ssh.
+My goal is to automate configuration of everything on the server, while keeping it up and secure.
 
 
-Tools used
-----------
+== The virtual private server
+
+The virtual private server is delivered with a pretty minimal Debian stable/jessie (initially Debian 8.3), and can be accessed using ssh.
+
+
+== Tools used in development
 
 * https://www.vagrantup.com/docs/[Vagrant] and https://www.virtualbox.org/[VirtualBox] - installed on my Mac using http://brew.sh/[Homebrew]
+* OpenSSH - for generating ssh-keys
 
 
-Development and staging VMs
----------------------------
-
+== Development and staging VMs
 
 To reduce the risk of making changes I use two local virtual machines (VMs running in VirtualBox). These are set up using Vagrant; see link:provision/Vagrantfile[the Vagrantfile] for details:
 
@@ -25,3 +23,22 @@ To reduce the risk of making changes I use two local virtual machines (VMs runni
 * `localmain` - I use this for staging to make sure my automation works as it should. 
 
 The installations of Debian in these VMs differ a little in the packages installed (they have more than the VPS), I'll guess I'll figure out how to handle that as I go along.
+
+
+== First-time setup
+
+=== SSH-keys for secure communication
+
+To secure communication with the server I have generated a public/private key-pair using OpenSSH and copied them to the VMs and the VPS.
+
+----
+ cd provision // <1>
+ ssh-keygen -t rsa -b 4096 -C "formasjon" // <2>
+ ./copy-public-key-dev.sh // <3>
+ ./copy-public-key-staging.sh
+ ./copy-public-key-prod.sh <sshuser> <vps-server-ip>  // <4>
+----
+<1> I do provisioning operations in this folder
+<2> Make sure to save the keys in the provision/ssh-folder
+<3> I made a couple of helper scripts for doing the copying (yeah, I know, duplication)
+<4> The user and IP is not in the "prod"-script
