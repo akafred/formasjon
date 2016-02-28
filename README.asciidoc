@@ -52,3 +52,16 @@ To edit the prod inventory: `ansible-vault edit prod`
 
 If you get tired of typing the vault passphrase you can add: `--vault-password-file ~/.vault_pass` and store the passphrase there.
 
+=== Ansible main playbook
+
+My main playbook is called link:provision/site[`site`] and should be possible to run at all times.
+
+The complete ansible command to run it is:
+
+`ansible-playbook -v --vault-password-file ~/.vault_pass --key-file=ssh/id_rsa -i prod site.yml`
+
+==== Ansible pre-reqs
+
+My VPS did not have all the required packages to run Ansible most of the ansible modules (python being the most obvious missing piece).
+
+To fix this I started with link:provision/roles/ansible-prereqs[a role for getting the prereq's in place].

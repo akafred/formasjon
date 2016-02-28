@@ -1,0 +1,6 @@
+---
+- name: bootstrap server
+  hosts: all
+  gather_facts: no
+  roles:
+    - ansible-prereqs
