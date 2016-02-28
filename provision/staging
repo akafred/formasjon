@@ -1,0 +1,2 @@
+[core]
+localmain ansible_host=localhost ansible_user=vagrant ansible_ssh_port=2252 ansible_become=true

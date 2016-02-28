@@ -13,6 +13,7 @@ The virtual private server is delivered with a pretty minimal Debian stable/jess
 
 * https://www.vagrantup.com/docs/[Vagrant] and https://www.virtualbox.org/[VirtualBox] - installed on my Mac using http://brew.sh/[Homebrew]
 * OpenSSH - for generating ssh-keys
+* https://docs.ansible.com/ansible/index.html[Ansible] - for provisioning and running commands on server
 
 
 == Development and staging VMs
@@ -42,3 +43,12 @@ To secure communication with the server I have generated a public/private key-pa
 <2> Make sure to save the keys in the provision/ssh-folder
 <3> I made a couple of helper scripts for doing the copying (yeah, I know, duplication)
 <4> The user and IP is not in the "prod"-script
+
+=== Using Ansible
+
+I use three inventory files for Ansible, link:provision/dev[`dev`], link:provision/staging[`staging`], and an encrypted one for link:provision/prod[`prod`]. The inventory files contain information about the server(s) in each environment and on how to connect to them. By encrypting the prod-inventory I can hide information is potentially sensitive. Ansible has a feature called http://docs.ansible.com/ansible/playbooks_vault.html[Ansible Vault] that makes it quite easy to work with.
+
+To edit the prod inventory: `ansible-vault edit prod` 
+
+If you get tired of typing the vault passphrase you can add: `--vault-password-file ~/.vault_pass` and store the passphrase there.
+
