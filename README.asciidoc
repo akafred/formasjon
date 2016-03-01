@@ -1,0 +1,4 @@
+Formasjon
+=========
+
+The set up of my virtual private server (VPS).
