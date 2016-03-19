@@ -6,7 +6,7 @@ My goal is to automate configuration of everything on the server, while keeping 
 
 == The virtual private server
 
-The virtual private server is delivered with a pretty minimal Debian stable/jessie (initially Debian 8.3), and can be accessed using ssh.
+The virtual private server has a minimal Debian stable/jessie (Debian 8.3). I access it using ssh.
 
 
 == Tools used in development
@@ -15,22 +15,21 @@ The virtual private server is delivered with a pretty minimal Debian stable/jess
 * OpenSSH - for generating ssh-keys
 * https://docs.ansible.com/ansible/index.html[Ansible] - for provisioning and running commands on server
 
-
 == Development and staging VMs
 
 To reduce the risk of making changes I use two local virtual machines (VMs running in VirtualBox). These are set up using Vagrant; see link:provision/Vagrantfile[the Vagrantfile] for details:
 
-* `devmain` - I poke around in this one manually
-* `localmain` - I use this for staging to make sure my automation works as it should. 
+* `devmain` - I poke around in this manually
+* `localmain` - I use this to make sure my automation works as it should
 
-The installations of Debian in these VMs differ a little in the packages installed (they have more than the VPS), I'll guess I'll figure out how to handle that as I go along.
+The installations of Debian in these VMs differ in the packages installed as they have more than the VPS. I'll guess I'll figure out how to handle that as I go along.
 
 
 == First-time setup
 
 === SSH-keys for secure communication
 
-To secure communication with the server I have generated a public/private key-pair using OpenSSH and copied them to the VMs and the VPS.
+To secure communication with the server I have generated a public/private key-pair using OpenSSH. I then copy the public keys to the VMs and the VPS.
 
 ----
  cd provision // <1>
@@ -48,7 +47,7 @@ To secure communication with the server I have generated a public/private key-pa
 
 === Inventory files
 
-I use three inventory files for Ansible, link:provision/dev[`dev`], link:provision/staging[`staging`], and an encrypted one for link:provision/prod[`prod`]. The inventory files contain information about the server(s) in each environment and on how to connect to them. By encrypting the prod-inventory I can hide information is potentially sensitive. Ansible has a feature called http://docs.ansible.com/ansible/playbooks_vault.html[Ansible Vault] that makes it quite easy to work with.
+I use three inventory files for Ansible, link:provision/dev[`dev`], link:provision/staging[`staging`], and an encrypted one for link:provision/prod[`prod`]. The inventory files contain information about the server(s) in each environment. They also show how to connect to each server. By encrypting the prod-inventory I can hide sensitive information. http://docs.ansible.com/ansible/playbooks_vault.html[Ansible Vault] makes it quite easy to work with encrypted files.
 
 To edit the prod inventory: `ansible-vault edit prod` 
 
@@ -56,7 +55,7 @@ If you get tired of typing the vault passphrase you can add: `--vault-password-f
 
 === Ansible main playbook
 
-My main playbook is called link:provision/site[`site`] and should be possible to run at all times.
+My main playbook is link:provision/site.yml[`site.yml`]. This playbook should be possible to run at all times.
 
 The complete ansible command to run it is:
 
@@ -64,27 +63,27 @@ The complete ansible command to run it is:
 
 ==== Ansible pre-reqs
 
-My VPS did not have all the required packages to run Ansible most of the ansible modules (python being the most obvious missing piece).
+My VPS did not have all the required packages for many ansible modules, e.g python.
 
 To fix this I started with link:provision/roles/ansible-prereqs[a role for getting the prereq's in place].
 
-=== Ansible-roles
+==== Firewall using Uncomplicated Firewall (ufw) and fail2ban
 
-I use roles from https://galaxy.ansible.com/[Ansible Galaxy]. To make these roles available for use you need to run `ansible-galaxy install <name.role>` before provisioning.
+I use https://wiki.debian.org/Uncomplicated%20Firewall%20(ufw)[ufw] for my firewall; it is a bit easier to use than iptables. Ansible also has https://docs.ansible.com/ansible/ufw_module.html[a module for it]. The role has link:provision/roles/firewalled/tasks/main.yml[a simple set of tasks].
+
+Also, to limit the chance of brute-forcing password-based SSH-users I added fail2ban. Thankfully someone has already created https://galaxy.ansible.com/nickjj/fail2ban/[a role for fail2ban] (pulled from https://galaxy.ansible.com/[Ansible Galaxy]), all I did was put it in my link:provision/base-setup.yml[base-setup], add some host-specific variables and press play.
+
+==== Ansible-roles
+
+I use roles from https://galaxy.ansible.com/[Ansible Galaxy]. You need to run `ansible-galaxy install <name.role>` before provisioning to install these roles.
 
 List of roles in use:
 
 * https://galaxy.ansible.com/nickjj/fail2ban/[nickjj.fail2ban] - for installing fail2ban
 
-==== Firewall using Uncomplicated Firewall (ufw) and fail2ban
-
-I use https://wiki.debian.org/Uncomplicated%20Firewall%20(ufw)[ufw] for my firewall as it is a bit easier to use than iptables directly; ansible also has https://docs.ansible.com/ansible/ufw_module.html[a module for it]. The role has link:provision/roles/firewalled/tasks/main.yml[a simple set of tasks].
-
-Also, to limit the chance of brute-forcing password-based SSH-users I added fail2ban. Thankfully someone has already created https://galaxy.ansible.com/nickjj/fail2ban/[a role for fail2ban] (pulled from https://galaxy.ansible.com/[Ansible Galaxy]), all I did was put it in my link:provision/base-setup.yml[base-setup], add some host-specific variables and press play.
-
 === Ansible command helpers
 
-To repeatedly use some arguments when invoking ansible is a bit tedious so I have made a couple of helper scripts: 
+To use the same arguments over and over is a bit tedious so I have made a couple of helper scripts: 
 
 * link:provision/run[`run`] - to run ansible commands, e.g `./run all -i dev -a "apt list --upgradeable"` or `./run all -i prod -m ping`
 * link:provision/play[`play`] - to run ansible playbooks, e.g `./play all -i dev site.yml`
@@ -95,7 +94,6 @@ A first step in making my server a bit more secure is to upgrade packages. To ch
 
 `./run all -i dev -a "apt list --upgradable"`
 
-To upgrade I use link:provision/upgrade.yml[a very short Ansible playbook], to run the playbook I can do:
+To upgrade I use link:provision/upgrade.yml[a short Ansible playbook]. To run the playbook I can do:
 
 `./play -i dev upgrade.yml`
-
