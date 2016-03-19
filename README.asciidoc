@@ -68,6 +68,14 @@ My VPS did not have all the required packages to run Ansible most of the ansible
 
 To fix this I started with link:provision/roles/ansible-prereqs[a role for getting the prereq's in place].
 
+=== Ansible-roles
+
+I use roles from https://galaxy.ansible.com/[Ansible Galaxy]. To make these roles available for use you need to run `ansible-galaxy install <name.role>` before provisioning.
+
+List of roles in use:
+
+* https://galaxy.ansible.com/nickjj/fail2ban/[nickjj.fail2ban] - for installing fail2ban
+
 ==== Firewall using Uncomplicated Firewall (ufw) and fail2ban
 
 I use https://wiki.debian.org/Uncomplicated%20Firewall%20(ufw)[ufw] for my firewall as it is a bit easier to use than iptables directly; ansible also has https://docs.ansible.com/ansible/ufw_module.html[a module for it]. The role has link:provision/roles/firewalled/tasks/main.yml[a simple set of tasks].
