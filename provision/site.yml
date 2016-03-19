@@ -1,3 +1,4 @@
 ---
 
 - include: base-setup.yml
+- include: core-server.yml

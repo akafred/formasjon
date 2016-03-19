@@ -1,0 +1,7 @@
+---
+- name: core server setup
+  hosts: core
+  gather_facts: yes
+  roles:
+    - docker-prereqs
+    - { role: dochang.docker, become: true }

@@ -79,6 +79,7 @@ I use roles from https://galaxy.ansible.com/[Ansible Galaxy]. You need to run `a
 List of roles in use:
 
 * https://galaxy.ansible.com/nickjj/fail2ban/[nickjj.fail2ban] - for installing fail2ban
+* https://galaxy.ansible.com/dochang/docker/[dochang.docker] - for installing Docker
 
 === Ansible command helpers
 

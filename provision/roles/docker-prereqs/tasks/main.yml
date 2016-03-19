@@ -1,0 +1,24 @@
+
+# http://stackoverflow.com/questions/27341064/how-do-i-fix-importerror-cannot-import-name-incompleteread/27341847#27341847
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=744145
+# http://everythingshouldbevirtual.com/ansible-debian-based-gotchas-part-1
+
+- name: uninstall python-pip (If installed) - Debian (and Ubuntu)
+  apt:
+    name: python-pip
+    state: absent
+  when: ansible_os_family == "Debian"
+
+- name: install python-setuptools to get easy_install - Debian (and Ubuntu)
+  apt:
+    name: python-setuptools
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: debian | installing python packages
+  easy_install:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - pip
+  when: ansible_os_family == "Debian"
