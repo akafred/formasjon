@@ -4,5 +4,6 @@
   gather_facts: no
   roles:
     - ansible-prereqs
+    - package-repos
     - firewalled
     - { role: nickjj.fail2ban, become: true, tags: fail2ban }

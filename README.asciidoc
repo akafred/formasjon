@@ -22,8 +22,7 @@ To reduce the risk of making changes I use two local virtual machines (VMs runni
 * `devmain` - I poke around in this manually
 * `localmain` - I use this to make sure my automation works as it should
 
-The installations of Debian in these VMs differ in the packages installed as they have more than the VPS. I'll guess I'll figure out how to handle that as I go along.
-
+The installations of Debian in these VMs differ in the packages installed as they have more than the VPS. I'll guess I'll figure out how to handle that as I go along. For now I am making sure the VMs and the VPS link:provision/roles/package-repos[are using the same repos].
 
 == First-time setup
 
