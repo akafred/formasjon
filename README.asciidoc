@@ -15,12 +15,12 @@ The virtual private server has a minimal Debian stable/jessie (Debian 8.3). I ac
 * OpenSSH - for generating ssh-keys
 * https://docs.ansible.com/ansible/index.html[Ansible] - for provisioning and running commands on server
 
-== Development and staging VMs
+== Development and stage VMs
 
 To reduce the risk of making changes I use two local virtual machines (VMs running in VirtualBox). These are set up using Vagrant; see link:provision/Vagrantfile[the Vagrantfile] for details:
 
 * `devmain` - I poke around in this manually
-* `localmain` - I use this to make sure my automation works as it should
+* `stagemain` - I use this to make sure my automation works as it should
 
 The installations of Debian in these VMs differ in the packages installed as they have more than the VPS. I'll guess I'll figure out how to handle that as I go along. For now I am making sure the VMs and the VPS link:provision/roles/package-repos[are using the same repos].
 
@@ -34,7 +34,7 @@ To secure communication with the server I have generated a public/private key-pa
  cd provision // <1>
  ssh-keygen -t rsa -b 4096 -C "formasjon" // <2>
  ./copy-public-key-dev.sh // <3>
- ./copy-public-key-staging.sh
+ ./copy-public-key-stage.sh
  ./copy-public-key-prod.sh <sshuser> <vps-server-ip>  // <4>
 ----
 <1> I do provisioning operations in this folder
@@ -46,7 +46,7 @@ To secure communication with the server I have generated a public/private key-pa
 
 === Inventory files
 
-I use three inventory files for Ansible, link:provision/dev[`dev`], link:provision/staging[`staging`], and an encrypted one for link:provision/prod[`prod`]. The inventory files contain information about the server(s) in each environment. They also show how to connect to each server. By encrypting the prod-inventory I can hide sensitive information. http://docs.ansible.com/ansible/playbooks_vault.html[Ansible Vault] makes it quite easy to work with encrypted files.
+I use three inventory files for Ansible, link:provision/dev[`dev`], link:provision/stage[`stage`], and an encrypted one for link:provision/prod[`prod`]. The inventory files contain information about the server(s) in each environment. They also show how to connect to each server. By encrypting the prod-inventory I can hide sensitive information. http://docs.ansible.com/ansible/playbooks_vault.html[Ansible Vault] makes it quite easy to work with encrypted files.
 
 To edit the prod inventory: `ansible-vault edit prod` 
 

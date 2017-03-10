@@ -1,2 +1,0 @@
-[core]
-localmain ansible_host=localhost ansible_user=vagrant ansible_ssh_port=2252 ansible_become=true fail2ban_ignoreip="127.0.0.0/8 10.0.0.0/24 192.168.0.0/16" fail2ban_bantime=864000
