@@ -1,2 +1,6 @@
 provision/ssh/id_rsa
 provision/ssh/authorized_keys
+*.log
+*.retry
+README.html
+provision/.vagrant
