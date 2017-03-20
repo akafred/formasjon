@@ -19,3 +19,15 @@
 
 - name: ufw - allow ssh 3
   ufw: rule=limit port=2262 proto=tcp
+
+- name: ufw - allow l2tp
+  ufw: rule=allow port=500 proto=udp
+
+- name: ufw - allow l2tp 2
+  ufw: rule=allow port=4500 proto=udp
+
+- name: ufw - allow l2tp 3
+  ufw: rule=allow port=1701 proto=tcp
+
+- name: ufw reload
+  ufw: state=reloaded

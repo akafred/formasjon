@@ -6,3 +6,4 @@
     - docker-prereqs
     - { role: dochang.docker, become: true }
     - users
+    - vpn

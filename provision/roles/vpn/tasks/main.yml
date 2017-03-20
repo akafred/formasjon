@@ -1,0 +1,14 @@
+
+- name: Start vpn-container
+  docker_container:
+    name: softethervpn
+    image: siomiz/softethervpn
+    state: started
+    ports:
+     - "500:0.0.0.0:500/udp"
+     - "4500:0.0.0.0:4500/udp"
+     - "1701:0.0.0.0:1701/tcp"
+    env:
+        PSK: some-pre-shared-secret
+        USERNAME: joe
+        PASSWORD: very-secret-password
