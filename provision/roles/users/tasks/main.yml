@@ -1,0 +1,17 @@
+- user:
+    name: kjetiljd
+    update_password: on_create
+    password: "{{ kjetiljd_pwd|password_hash('sha512') }}"
+    shell: /bin/bash
+    group: staff
+    groups: sudo,docker
+    append: yes
+
+- user:
+    name: theo2000
+    update_password: on_create
+    password: "{{ theo2000_pwd|password_hash('sha512') }}"
+    shell: /bin/bash
+    group: users
+    groups: docker
+    append: yes
