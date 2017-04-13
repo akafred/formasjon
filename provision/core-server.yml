@@ -4,8 +4,17 @@
   gather_facts: yes
   vars_files:
     - datadog_api_key.yml
+    - datadog-checks.yml
   roles:
     - docker-prereqs
     - { role: dochang.docker, become: true }
     - users
     - { role: Datadog.datadog, become: true }
+
+  tasks:
+    - name: Make sure datadog agent has docker access
+      user:
+        name: dd-agent
+        groups: docker
+        append: yes
+      become: true
