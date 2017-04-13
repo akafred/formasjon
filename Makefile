@@ -1,4 +1,4 @@
-.PHONY: default play upgrade run start-dev start-stage start-prod galaxy-install help
+.PHONY: default play upgrade run stop start-dev start-stage start-prod galaxy-install help
 
 ifndef ENV
 ENV=dev
@@ -28,6 +28,9 @@ start-stage:
 
 start-prod:
 	@echo
+
+stop:
+	@cd provision && vagrant suspend $(ENV)main; cd ..
 
 galaxy-install:
 	@cd provision && ansible-galaxy install nickjj.fail2ban; cd ..
