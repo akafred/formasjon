@@ -2,7 +2,10 @@
 - name: core server setup
   hosts: core
   gather_facts: yes
+  vars_files:
+    - datadog_api_key.yml
   roles:
     - docker-prereqs
     - { role: dochang.docker, become: true }
     - users
+    - { role: Datadog.datadog, become: true }
