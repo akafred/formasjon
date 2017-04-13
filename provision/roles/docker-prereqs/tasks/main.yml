@@ -22,3 +22,17 @@
   with_items:
     - pip
   when: ansible_os_family == "Debian"
+
+# https://github.com/DataDog/docker-dd-agent/pull/181/commits/d140d2797a3252b51f69b891246ebe37d637e28b
+- name: Add cgroup stuff (cgroup_enable=memory swapaccount=1)
+  lineinfile:
+    dest: "/etc/default/grub"
+    regexp: '(^GRUB_CMDLINE_LINUX_DEFAULT="((?!cgroup_enable=memory swapaccount=1)[\w=\/\-\\.]*\s?)*)"$'
+    line: '\1 cgroup_enable=memory swapaccount=1"'
+    backrefs: yes
+    state: present
+  register: grubfile
+
+- name: update grub
+  command: update-grub
+  when: grubfile.changed
