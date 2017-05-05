@@ -11,6 +11,7 @@
     - users
     - { role: Datadog.datadog, become: true }
     - java
+    - jenkins
 
   tasks:
     - name: Make sure datadog agent has docker access
@@ -19,3 +20,7 @@
         groups: docker
         append: yes
       become: true
+
+    - name: Display all variables/facts known for a host
+      debug:
+        var: hostvars[inventory_hostname]

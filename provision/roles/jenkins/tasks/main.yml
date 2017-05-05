@@ -1,0 +1,26 @@
+
+
+- name: Jenkins deb repository
+  apt_repository:
+    repo: deb https://pkg.jenkins.io/debian binary/
+    state: present
+  become: true
+  register: jenkins_repo
+
+- apt_key:
+    url: "https://pkg.jenkins.io/debian/jenkins.io.key"
+    state: present
+  become: true
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+  when: jenkins_repo.changed
+  become: true
+
+- name: Install jenkins
+  apt:
+    name: jenkins
+    state: present
+  become: true
+
