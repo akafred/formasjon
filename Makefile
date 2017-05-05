@@ -32,6 +32,9 @@ start-prod:
 stop:
 	@cd provision && vagrant suspend $(ENV)main; cd ..
 
+decrypt-private-key:
+	ansible-vault decrypt provision/ssh/id_rsa.enc --output provision/ssh/id_rsa
+
 galaxy-install:
 	@cd provision && ansible-galaxy install nickjj.fail2ban; cd ..
 	@cd provision && ansible-galaxy install Datadog.datadog; cd ..
