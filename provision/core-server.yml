@@ -10,6 +10,7 @@
     - { role: dochang.docker, become: true }
     - users
     - { role: Datadog.datadog, become: true }
+    - java
 
   tasks:
     - name: Make sure datadog agent has docker access
