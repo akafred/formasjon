@@ -1,0 +1,19 @@
+
+- name: create site-folder
+  file:
+    path: /var/deploy/site/redesign-two/_site
+    state: directory
+    mode: 0755
+    owner: deploy
+    group: www
+
+- name: start nginx
+  docker_container:
+    name: deploy-nginx
+    image: nginx
+    restart_policy: unless-stopped
+    state: started
+    ports:
+     - "80:80"
+    volumes:
+      - "/var/deploy/site/redesign-two/_site/:/usr/share/nginx/html:ro"

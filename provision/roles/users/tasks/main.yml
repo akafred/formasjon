@@ -16,17 +16,22 @@
     groups: docker
     append: yes
 
+- name: Create www group
+  group:
+    name: www
+
 - name: Create deployment-user for travis
   user:
     name: deploy
     shell: /bin/bash
     group: users
+    groups: www
+    append: yes
     home: /var/deploy
 
 - name: Set authorized key took from file
   authorized_key:
     user: deploy
-    state: present
     key: "{{ item }}"
   with_file:
     - keys/deploy_rsa.pub

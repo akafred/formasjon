@@ -19,3 +19,6 @@
 
 - name: ufw - allow ssh 3
   ufw: rule=limit port=2262 proto=tcp
+
+- name: ufw - allow http port 80
+  ufw: rule=allow port=80 proto=tcp
